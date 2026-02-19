@@ -1,0 +1,155 @@
+- generic [active] [ref=e1]:
+  - banner [ref=e2]:
+    - navigation [ref=e3]:
+      - list [ref=e4]:
+        - listitem [ref=e6]:
+          - link "Arne Küderle" [ref=e7] [cursor=pointer]:
+            - /url: /
+        - generic [ref=e8]:
+          - listitem [ref=e9]:
+            - link "Archive" [ref=e10] [cursor=pointer]:
+              - /url: /archive
+          - listitem [ref=e11]:
+            - link "Quicktips" [ref=e12] [cursor=pointer]:
+              - /url: /quicktips
+          - listitem [ref=e13]:
+            - link "About" [ref=e14] [cursor=pointer]:
+              - /url: /about
+  - generic [ref=e17]:
+    - banner [ref=e18]:
+      - paragraph [ref=e19]: Dec 9, 2016
+      - heading "Automate your Paperwork with Latex and Python (Part 2 - Jinja + Argparse)" [level=1] [ref=e20]
+    - generic [ref=e21]:
+      - generic [ref=e22]: Latex
+      - generic [ref=e23]: Python
+      - generic [ref=e24]: Workflow
+      - generic [ref=e25]: Productivity
+    - article [ref=e26]:
+      - paragraph [ref=e27]:
+        - text: It has been a while since the first part of this post. The main reason being, that I kind of gave up on the Proof of Concept I detailed in the
+        - link "there" [ref=e28] [cursor=pointer]:
+          - /url: /posts/Automatization-with-Latex-and-Python-1/
+        - text: ", because I discovered a seriously better way to do it. The magic is called"
+        - strong [ref=e29]: template engines
+        - text: "!"
+      - heading "Using Jinja2" [level=2] [ref=e30]
+      - paragraph [ref=e31]:
+        - text: A template engine is a tool, that can parse a textfile and replace certain patterns with variables provided. Sounds like what we need! A very popular template engine for Python is
+        - link "Jinja2" [ref=e32] [cursor=pointer]:
+          - /url: http://jinja.pocoo.org/docs/dev/
+        - text: ", which is for example used by the well known"
+        - link "Flask" [ref=e33] [cursor=pointer]:
+          - /url: http://flask.pocoo.org/
+        - text: web-framework. I will not do a full jinja tutorial here, but there are many resources out there to learn its full power!
+      - paragraph [ref=e34]:
+        - text: In the following we will replace the second part of our previous
+        - link "parse script" [ref=e35] [cursor=pointer]:
+          - /url: https://github.com/AKuederle/Py-Tex-automation-example/blob/POC/parser.py
+        - text: with the magic of jinja2 (install jinja with
+        - code [ref=e36]: pip install Jinja2
+        - text: "). First we need to adapt the jinja parsing for LaTex. By default, it is looking for ”{% %}” and ”{{ }}“tags in the document. As it might happen that we type these characters in our LaTex document without wanting them to be replace, we tell jinja to look for something else. The most elegant solution, in my opinion, is two use “Latex-like” commands, as detailed in this"
+        - link "blogpost from Brad Erickson" [ref=e37] [cursor=pointer]:
+          - /url: http://eosrei.net/articles/2015/11/latex-templates-python-and-jinja2-generate-pdfs
+        - text: ". The following lines are shamelessly copied from there:"
+      - code [ref=e39]:
+        - generic [ref=e40]: "# modified from http://eosrei.net/articles/2015/11/latex-templates-python-and-jinja2-generate-pdfs"
+        - generic [ref=e41]: import jinja2
+        - generic [ref=e42]: import os
+        - generic [ref=e43]: from jinja2 import Template
+        - generic [ref=e44]: latex_jinja_env = jinja2.Environment(
+        - generic [ref=e45]: "block_start_string = '\\BLOCK{',"
+        - generic [ref=e46]: "block_end_string = '}',"
+        - generic [ref=e47]: "variable_start_string = '\\VAR{',"
+        - generic [ref=e48]: "variable_end_string = '}',"
+        - generic [ref=e49]: "comment_start_string = '\\#{',"
+        - generic [ref=e50]: "comment_end_string = '}',"
+        - generic [ref=e51]: line_statement_prefix = '%%',
+        - generic [ref=e52]: line_comment_prefix = '%#',
+        - generic [ref=e53]: trim_blocks = True,
+        - generic [ref=e54]: autoescape = False,
+        - generic [ref=e55]: loader = jinja2.FileSystemLoader(os.path.abspath('/'))
+        - generic [ref=e56]: )
+      - paragraph [ref=e57]: "Putting that into our parse.py-file will configure jinja2 to look for “\\VAR{ }” to find variables for replacing and “\\BLOCK{ }” to find code for execution. Have a look at the linked blogpost for more details."
+      - paragraph [ref=e58]:
+        - text: So, instead of awkwardly writing LaTex-syntax to a file using Python (as we did before), we can now create a LaTex file containing some keywords and replace them on runtime with our variables. We gonna ignore the
+        - code [ref=e59]: .cls
+        - text: file we created last time and make a new file called
+        - code [ref=e60]: template.tex
+        - text: ":"
+      - code [ref=e62]:
+        - generic [ref=e63]: "\\documentclass[12pt,a4paper]{article} % din a4, 11 pt, one sided"
+        - generic [ref=e64]: "\\begin{document}"
+        - generic [ref=e65]: "\\VAR{Name}"
+        - generic [ref=e66]: "\\VAR{Address}"
+        - generic [ref=e67]: "\\VAR{Notes}"
+        - generic [ref=e68]: "\\VAR{Contact}"
+        - generic [ref=e69]: "\\end{document}"
+      - paragraph [ref=e70]: This is a very simple document with basically no configuration. The only interesting thing are the “\VAR” tags. These are replaced in the next step using jinja. The words in the curly braces are the variables names we want to use for replacing them.
+      - paragraph [ref=e71]: "To do so, we have to tell jinja where the file is and let it convert it into valid LaTex:"
+      - code [ref=e73]:
+        - generic [ref=e74]: template = latex_jinja_env.get_template(os.path.realpath(template_file))
+        - generic [ref=e75]: options = dict(zip(keys, values))
+        - generic [ref=e76]: renderer_template = template.render(**options)
+        - generic [ref=e77]: "if not os.path.exists(build_d): # create the build directory if not existing"
+        - generic [ref=e78]: os.makedirs(build_d)
+        - generic [ref=e79]: "with open(out_file+\".tex\", \"w\") as f: # saves tex_code to outpout file"
+        - generic [ref=e80]: f.write(renderer_template)
+      - paragraph [ref=e81]:
+        - text: In the first line we pass jinja the path to our template file (we will generate the template_file variable later). Then we create a dictionary from our variables, we parsed from our input file (see
+        - link "first part" [ref=e82] [cursor=pointer]:
+          - /url: /posts/Automatization-with-Latex-and-Python-1/
+        - text: of the blogpost for details). These options dictionary is passed to the
+        - code [ref=e83]: template.render
+        - text: function, which makes all dictionary keys available as variables in the template (**-syntax is called
+        - link "dictionary unpacking" [ref=e84] [cursor=pointer]:
+          - /url: http://python-reference.readthedocs.io/en/latest/docs/operators/dict_unpack.html
+        - text: "). Jinja will replace all occurrences of these variables with their respective value and return a rendered string. We save this string into an output tex-file. This file is valid LaTex and can then be compiled as before:"
+      - code [ref=e86]:
+        - generic [ref=e87]: "os.system('pdflatex -output-directory {} {}'.format(os.path.realpath(build_d), os.path.realpath(out_file + '.tex')))"
+        - generic [ref=e88]: shutil.copy2(out_file+".pdf", os.path.dirname(os.path.realpath(in_file)))
+      - paragraph [ref=e89]: Now we are back at the point, where the last blogpost ended. However, we made use of template engine, which made our code cleaner and easier to work with on the Latex side. To make this script useful in everyday work, we will now improve its usability.
+      - heading "Adding Comandline Arguments" [level=3] [ref=e90]
+      - paragraph [ref=e91]: If you plan to use a similar script to generate e.g. invoices for each of your projects, you don’t want to edit the python file every time to modify the file paths. Therefore, we gonna add some commandline arguments.
+      - paragraph [ref=e92]:
+        - text: Simple commandline arguments can be easily handled by Python using the
+        - link "argparse module" [ref=e93] [cursor=pointer]:
+          - /url: https://docs.python.org/3/library/argparse.html
+          - code [ref=e94]: argparse
+          - text: module
+        - text: ". We gonna add two flags, one for the inputfile and one for the template:"
+      - code [ref=e96]:
+        - generic [ref=e97]: parser = argparse.ArgumentParser(description='Render a LaTex Template with variables.')
+        - generic [ref=e98]: parser.add_argument('-i','--in', help='Input File', required=False, default='./example.txt' )
+        - generic [ref=e99]: parser.add_argument('-t','--template', help='Template File', required=False, default='./template.tex')
+        - generic [ref=e100]: args = vars(parser.parse_args())
+      - paragraph [ref=e101]:
+        - text: The defaults there are just for this test setup and can easily be changed to you liking. You could also omit them and set the
+        - code [ref=e102]: required=True
+        - text: parameter for each flags. This will force the user to specify both, and will return an error otherwise. If you plan to share your script with others, you should also improve the help texts!
+      - paragraph [ref=e103]: "If we call our script now like this:"
+      - code [ref=e105]:
+        - generic [ref=e106]: python parser.py -i example.txt -t template.tex
+      - paragraph [ref=e107]: "… we can get the path to the input and the template file from the args dictionary:"
+      - code [ref=e109]:
+        - generic [ref=e110]: in_file = args['in']
+        - generic [ref=e111]: template_file = args['template']
+      - paragraph [ref=e112]:
+        - text: And we are done!! We created a universal LaTex templating script, we can now easily feed with our custom templates using the modified jinja tags. The script can live somewhere in our
+        - code [ref=e113]: PATH
+        - text: and we can call it whenever we need it in one of our projects. The next step would be to allow different input-file formats. For example an excel file, where you have stored your customer information in. If you have specific requirements on how to parse the input files, let me know in the comments and I will try to help you! The full code can be found on
+        - link "github" [ref=e114] [cursor=pointer]:
+          - /url: https://github.com/AKuederle/Py-Tex-automation-example/tree/p2
+        - text: as always!
+      - paragraph [ref=e115]: Thanks for reading and let me know, if you found that short tutorial helpful!
+  - contentinfo [ref=e116]:
+    - generic:
+      - link [ref=e117] [cursor=pointer]:
+        - /url: https://github.com/AKuederle
+        - img [ref=e118]
+      - link [ref=e121] [cursor=pointer]:
+        - /url: mailto:a.kuederle@gmail.com?Subject=Blog%20Comment
+        - img [ref=e122]
+      - link [ref=e127] [cursor=pointer]:
+        - /url: http://feeds.feedburner.com/ArneKuederle
+        - img [ref=e128]
+    - generic [ref=e132]: © 2015-2017 Arne Küderle All Rights Reserved

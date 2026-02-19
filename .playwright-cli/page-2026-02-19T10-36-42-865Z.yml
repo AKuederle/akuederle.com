@@ -1,0 +1,74 @@
+- generic [active] [ref=e1]:
+  - banner [ref=e2]:
+    - navigation [ref=e3]:
+      - list [ref=e4]:
+        - listitem [ref=e6]:
+          - link "Arne Küderle" [ref=e7] [cursor=pointer]:
+            - /url: /
+        - generic [ref=e8]:
+          - listitem [ref=e9]:
+            - link "Archive" [ref=e10] [cursor=pointer]:
+              - /url: /archive
+          - listitem [ref=e11]:
+            - link "Quicktips" [ref=e12] [cursor=pointer]:
+              - /url: /quicktips
+          - listitem [ref=e13]:
+            - link "About" [ref=e14] [cursor=pointer]:
+              - /url: /about
+  - generic [ref=e17]:
+    - banner [ref=e18]:
+      - heading "Quicktips" [level=1] [ref=e19]
+    - article [ref=e20]:
+      - generic [ref=e21]:
+        - link "Linux Fix battery drain while powered off in Arch/Manjaro" [ref=e22] [cursor=pointer]:
+          - /url: /quicktips/fix-battery-drain/
+          - generic [ref=e24]: Linux
+          - generic [ref=e25]: Fix battery drain while powered off in Arch/Manjaro
+        - link "Matplotlib Easily expand the Number of Colors in your Matplotlib Color cycle" [ref=e26] [cursor=pointer]:
+          - /url: /quicktips/change-color-of-matplotlib-plots/
+          - generic [ref=e28]: Matplotlib
+          - generic [ref=e29]: Easily expand the Number of Colors in your Matplotlib Color cycle
+        - link "PowerShell Modify your PowerShell Prompt" [ref=e30] [cursor=pointer]:
+          - /url: /quicktips/modify-your-powershell-prompt/
+          - generic [ref=e32]: PowerShell
+          - generic [ref=e33]: Modify your PowerShell Prompt
+        - link "Linux Fix AUR curl error" [ref=e34] [cursor=pointer]:
+          - /url: /quicktips/aur-curl-error/
+          - generic [ref=e36]: Linux
+          - generic [ref=e37]: Fix AUR curl error
+        - link "Latex Extend the Latex begin-document command" [ref=e38] [cursor=pointer]:
+          - /url: /quicktips/extend-latex-begin-document/
+          - generic [ref=e40]: Latex
+          - generic [ref=e41]: Extend the Latex begin-document command
+        - link "Productivity Boost your Productivity by increasing Video Playback Speed" [ref=e42] [cursor=pointer]:
+          - /url: /quicktips/boost-your-productivity-by-increasing-video-playback-speed/
+          - generic [ref=e44]: Productivity
+          - generic [ref=e45]: Boost your Productivity by increasing Video Playback Speed
+        - link "Git Commit changes to a different branch" [ref=e46] [cursor=pointer]:
+          - /url: /quicktips/commit-changed-to-a-different-branch/
+          - generic [ref=e48]: Git
+          - generic [ref=e49]: Commit changes to a different branch
+        - link "Python Create a zoomed-up inset plot in Matplotlib" [ref=e50] [cursor=pointer]:
+          - /url: /quicktips/matplotlib-zoomed-up-inset/
+          - generic [ref=e52]: Python
+          - generic [ref=e53]: Create a zoomed-up inset plot in Matplotlib
+        - link "Python The proper way to create a numpy array inside a for-loop" [ref=e54] [cursor=pointer]:
+          - /url: /quicktips/create-numpy-array-with-for-loop/
+          - generic [ref=e56]: Python
+          - generic [ref=e57]: The proper way to create a numpy array inside a for-loop
+        - link "Python STOP USING numpy.loadtxt()" [ref=e58] [cursor=pointer]:
+          - /url: /quicktips/stop-using-numpy-loadtxt/
+          - generic [ref=e60]: Python
+          - generic [ref=e61]: STOP USING numpy.loadtxt()
+  - contentinfo [ref=e62]:
+    - generic:
+      - link [ref=e63] [cursor=pointer]:
+        - /url: https://github.com/AKuederle
+        - img [ref=e64]
+      - link [ref=e67] [cursor=pointer]:
+        - /url: mailto:a.kuederle@gmail.com?Subject=Blog%20Comment
+        - img [ref=e68]
+      - link [ref=e73] [cursor=pointer]:
+        - /url: http://feeds.feedburner.com/ArneKuederle
+        - img [ref=e74]
+    - generic [ref=e78]: © 2015-2017 Arne Küderle All Rights Reserved

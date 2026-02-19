@@ -1,0 +1,80 @@
+- generic [active] [ref=e1]:
+  - banner [ref=e2]:
+    - navigation [ref=e3]:
+      - list [ref=e4]:
+        - listitem [ref=e6]:
+          - link "Arne Küderle" [ref=e7] [cursor=pointer]:
+            - /url: /
+        - generic [ref=e8]:
+          - listitem [ref=e9]:
+            - link "Archive" [ref=e10] [cursor=pointer]:
+              - /url: /archive
+          - listitem [ref=e11]:
+            - link "Quicktips" [ref=e12] [cursor=pointer]:
+              - /url: /quicktips
+          - listitem [ref=e13]:
+            - link "About" [ref=e14] [cursor=pointer]:
+              - /url: /about
+  - generic [ref=e17]:
+    - link "Dec 19, 2016 Automate your Paperwork with Latex and Python (Part 3 - Reports based on Excel Data)" [ref=e19] [cursor=pointer]:
+      - /url: /posts/automatization-with-latex-and-python-3/
+      - generic [ref=e20]:
+        - text: Dec 19, 2016
+        - heading "Automate your Paperwork with Latex and Python (Part 3 - Reports based on Excel Data)" [level=2] [ref=e21]
+    - link "Dec 9, 2016 Automate your Paperwork with Latex and Python (Part 2 - Jinja + Argparse)" [ref=e23] [cursor=pointer]:
+      - /url: /posts/automatization-with-latex-and-python-2/
+      - generic [ref=e24]:
+        - text: Dec 9, 2016
+        - heading "Automate your Paperwork with Latex and Python (Part 2 - Jinja + Argparse)" [level=2] [ref=e25]
+    - link "Apr 3, 2016 Awesome WM Widget Guide (Part 1)" [ref=e27] [cursor=pointer]:
+      - /url: /posts/awesome_wm-widgets-1/
+      - generic [ref=e28]:
+        - text: Apr 3, 2016
+        - heading "Awesome WM Widget Guide (Part 1)" [level=2] [ref=e29]
+    - link "Mar 16, 2016 How to get Windows-like Application Shortcuts in Linux (KDE, Gnome, and any other)" [ref=e31] [cursor=pointer]:
+      - /url: /posts/windows-like-appshortcuts-in-linux/
+      - generic [ref=e32]:
+        - text: Mar 16, 2016
+        - heading "How to get Windows-like Application Shortcuts in Linux (KDE, Gnome, and any other)" [level=2] [ref=e33]
+    - link "Jun 27, 2015 Customize IPython's Keyboard Shortcuts" [ref=e35] [cursor=pointer]:
+      - /url: /posts/customize-ipython-keymap/
+      - generic [ref=e36]:
+        - text: Jun 27, 2015
+        - heading "Customize IPython's Keyboard Shortcuts" [level=2] [ref=e37]
+    - link "Jun 1, 2015 Scientific Python NOW! (Part 2)" [ref=e39] [cursor=pointer]:
+      - /url: /posts/scientific-python-now-2/
+      - generic [ref=e40]:
+        - text: Jun 1, 2015
+        - heading "Scientific Python NOW! (Part 2)" [level=2] [ref=e41]
+    - link "May 27, 2015 Automate your Paperwork with Latex and Python (Part 1 - POC)" [ref=e43] [cursor=pointer]:
+      - /url: /posts/automatization-with-latex-and-python-1/
+      - generic [ref=e44]:
+        - text: May 27, 2015
+        - heading "Automate your Paperwork with Latex and Python (Part 1 - POC)" [level=2] [ref=e45]
+    - link "May 26, 2015 Scientific Python NOW! (Part 1)" [ref=e47] [cursor=pointer]:
+      - /url: /posts/scientific-python-now-1/
+      - generic [ref=e48]:
+        - text: May 26, 2015
+        - heading "Scientific Python NOW! (Part 1)" [level=2] [ref=e49]
+    - link "May 18, 2015 Create your own professional digital Signature and learn about custom LaTex Packages" [ref=e51] [cursor=pointer]:
+      - /url: /posts/create-professional-signature-with-latex/
+      - generic [ref=e52]:
+        - text: May 18, 2015
+        - heading "Create your own professional digital Signature and learn about custom LaTex Packages" [level=2] [ref=e53]
+    - link "Mar 18, 2015 Make Linux even more awesome with Dmenu" [ref=e55] [cursor=pointer]:
+      - /url: /posts/awesome-dmenu/
+      - generic [ref=e56]:
+        - text: Mar 18, 2015
+        - heading "Make Linux even more awesome with Dmenu" [level=2] [ref=e57]
+  - contentinfo [ref=e58]:
+    - generic:
+      - link [ref=e59] [cursor=pointer]:
+        - /url: https://github.com/AKuederle
+        - img [ref=e60]
+      - link [ref=e63] [cursor=pointer]:
+        - /url: mailto:a.kuederle@gmail.com?Subject=Blog%20Comment
+        - img [ref=e64]
+      - link [ref=e69] [cursor=pointer]:
+        - /url: http://feeds.feedburner.com/ArneKuederle
+        - img [ref=e70]
+    - generic [ref=e74]: © 2015-2017 Arne Küderle All Rights Reserved

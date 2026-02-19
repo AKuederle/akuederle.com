@@ -1,0 +1,126 @@
+- generic [active] [ref=e1]:
+  - banner [ref=e2]:
+    - navigation [ref=e3]:
+      - list [ref=e4]:
+        - listitem [ref=e6]:
+          - link "Arne Küderle" [ref=e7] [cursor=pointer]:
+            - /url: /
+        - generic [ref=e8]:
+          - listitem [ref=e9]:
+            - link "Archive" [ref=e10] [cursor=pointer]:
+              - /url: /archive
+          - listitem [ref=e11]:
+            - link "Quicktips" [ref=e12] [cursor=pointer]:
+              - /url: /quicktips
+          - listitem [ref=e13]:
+            - link "About" [ref=e14] [cursor=pointer]:
+              - /url: /about
+  - generic [ref=e17]:
+    - banner [ref=e18]:
+      - heading "Archive" [level=1] [ref=e19]
+    - article [ref=e20]:
+      - generic [ref=e21]:
+        - link "Dec 19, 2016 Automate your Paperwork with Latex and Python (Part 3 - Reports based on Excel Data) Latex Python Workflow Productivity" [ref=e22] [cursor=pointer]:
+          - /url: /posts/automatization-with-latex-and-python-3/
+          - generic [ref=e23]: Dec 19, 2016
+          - generic [ref=e24]:
+            - text: Automate your Paperwork with Latex and Python (Part 3 - Reports based on Excel Data)
+            - generic [ref=e25]:
+              - generic [ref=e26]: Latex
+              - generic [ref=e27]: Python
+              - generic [ref=e28]: Workflow
+              - generic [ref=e29]: Productivity
+        - link "Dec 9, 2016 Automate your Paperwork with Latex and Python (Part 2 - Jinja + Argparse) Latex Python Workflow Productivity" [ref=e30] [cursor=pointer]:
+          - /url: /posts/automatization-with-latex-and-python-2/
+          - generic [ref=e31]: Dec 9, 2016
+          - generic [ref=e32]:
+            - text: Automate your Paperwork with Latex and Python (Part 2 - Jinja + Argparse)
+            - generic [ref=e33]:
+              - generic [ref=e34]: Latex
+              - generic [ref=e35]: Python
+              - generic [ref=e36]: Workflow
+              - generic [ref=e37]: Productivity
+        - link "Apr 3, 2016 Awesome WM Widget Guide (Part 1) Linux Lua Awesome" [ref=e38] [cursor=pointer]:
+          - /url: /posts/awesome_wm-widgets-1/
+          - generic [ref=e39]: Apr 3, 2016
+          - generic [ref=e40]:
+            - text: Awesome WM Widget Guide (Part 1)
+            - generic [ref=e41]:
+              - generic [ref=e42]: Linux
+              - generic [ref=e43]: Lua
+              - generic [ref=e44]: Awesome
+        - link "Mar 16, 2016 How to get Windows-like Application Shortcuts in Linux (KDE, Gnome, and any other) Linux Bash" [ref=e45] [cursor=pointer]:
+          - /url: /posts/windows-like-appshortcuts-in-linux/
+          - generic [ref=e46]: Mar 16, 2016
+          - generic [ref=e47]:
+            - text: How to get Windows-like Application Shortcuts in Linux (KDE, Gnome, and any other)
+            - generic [ref=e48]:
+              - generic [ref=e49]: Linux
+              - generic [ref=e50]: Bash
+        - link "Jun 27, 2015 Customize IPython's Keyboard Shortcuts Python IPython" [ref=e51] [cursor=pointer]:
+          - /url: /posts/customize-ipython-keymap/
+          - generic [ref=e52]: Jun 27, 2015
+          - generic [ref=e53]:
+            - text: Customize IPython's Keyboard Shortcuts
+            - generic [ref=e54]:
+              - generic [ref=e55]: Python
+              - generic [ref=e56]: IPython
+        - link "Jun 1, 2015 Scientific Python NOW! (Part 2) Python Numpy Matplotlib SciPy" [ref=e57] [cursor=pointer]:
+          - /url: /posts/scientific-python-now-2/
+          - generic [ref=e58]: Jun 1, 2015
+          - generic [ref=e59]:
+            - text: Scientific Python NOW! (Part 2)
+            - generic [ref=e60]:
+              - generic [ref=e61]: Python
+              - generic [ref=e62]: Numpy
+              - generic [ref=e63]: Matplotlib
+              - generic [ref=e64]: SciPy
+        - link "May 27, 2015 Automate your Paperwork with Latex and Python (Part 1 - POC) Latex Python Workflow Productivity" [ref=e65] [cursor=pointer]:
+          - /url: /posts/automatization-with-latex-and-python-1/
+          - generic [ref=e66]: May 27, 2015
+          - generic [ref=e67]:
+            - text: Automate your Paperwork with Latex and Python (Part 1 - POC)
+            - generic [ref=e68]:
+              - generic [ref=e69]: Latex
+              - generic [ref=e70]: Python
+              - generic [ref=e71]: Workflow
+              - generic [ref=e72]: Productivity
+        - link "May 26, 2015 Scientific Python NOW! (Part 1) Python Numpy Matplotlib SciPy" [ref=e73] [cursor=pointer]:
+          - /url: /posts/scientific-python-now-1/
+          - generic [ref=e74]: May 26, 2015
+          - generic [ref=e75]:
+            - text: Scientific Python NOW! (Part 1)
+            - generic [ref=e76]:
+              - generic [ref=e77]: Python
+              - generic [ref=e78]: Numpy
+              - generic [ref=e79]: Matplotlib
+              - generic [ref=e80]: SciPy
+        - link "May 18, 2015 Create your own professional digital Signature and learn about custom LaTex Packages LaTex Workflow" [ref=e81] [cursor=pointer]:
+          - /url: /posts/create-professional-signature-with-latex/
+          - generic [ref=e82]: May 18, 2015
+          - generic [ref=e83]:
+            - text: Create your own professional digital Signature and learn about custom LaTex Packages
+            - generic [ref=e84]:
+              - generic [ref=e85]: LaTex
+              - generic [ref=e86]: Workflow
+        - link "Mar 18, 2015 Make Linux even more awesome with Dmenu Workflow Linux Bash" [ref=e87] [cursor=pointer]:
+          - /url: /posts/awesome-dmenu/
+          - generic [ref=e88]: Mar 18, 2015
+          - generic [ref=e89]:
+            - text: Make Linux even more awesome with Dmenu
+            - generic [ref=e90]:
+              - generic [ref=e91]: Workflow
+              - generic [ref=e92]: Linux
+              - generic [ref=e93]: Bash
+  - contentinfo [ref=e94]:
+    - generic:
+      - link [ref=e95] [cursor=pointer]:
+        - /url: https://github.com/AKuederle
+        - img [ref=e96]
+      - link [ref=e99] [cursor=pointer]:
+        - /url: mailto:a.kuederle@gmail.com?Subject=Blog%20Comment
+        - img [ref=e100]
+      - link [ref=e105] [cursor=pointer]:
+        - /url: http://feeds.feedburner.com/ArneKuederle
+        - img [ref=e106]
+    - generic [ref=e110]: © 2015-2017 Arne Küderle All Rights Reserved

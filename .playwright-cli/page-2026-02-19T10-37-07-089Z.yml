@@ -1,0 +1,70 @@
+- generic [active] [ref=e1]:
+  - banner [ref=e2]:
+    - navigation [ref=e3]:
+      - list [ref=e4]:
+        - listitem [ref=e6]:
+          - link "Arne Küderle" [ref=e7] [cursor=pointer]:
+            - /url: /
+        - generic [ref=e8]:
+          - listitem [ref=e9]:
+            - link "Archive" [ref=e10] [cursor=pointer]:
+              - /url: /archive
+          - listitem [ref=e11]:
+            - link "Quicktips" [ref=e12] [cursor=pointer]:
+              - /url: /quicktips
+          - listitem [ref=e13]:
+            - link "About" [ref=e14] [cursor=pointer]:
+              - /url: /about
+  - generic [ref=e17]:
+    - banner [ref=e18]:
+      - paragraph [ref=e19]: Apr 6, 2015
+      - heading "STOP USING numpy.loadtxt()" [level=1] [ref=e20]
+    - generic [ref=e22]: Python
+    - article [ref=e23]:
+      - paragraph [ref=e24]: If you are using Python for data analysis you are using numpy in some way and you are probably using the numpy “loadtxt” function as well.
+      - paragraph [ref=e25]: STOP DOINIG IT!!!
+      - paragraph [ref=e26]: "Seriously, stop using the numpy.loadtxt() function (unless you have a lot of spare time…). Why you might ask? - Because it is SLOW! - How slow you might ask? - Very slow! Numpy loads a 250 mb csv-file containing 6215000 x 4 datapoints from my SSD in approx. 35 s! - But hey, this is a pretty large file you might say! - No Excuse! Comparing the speed of numpy’s loadtxt function with pandas’s read_csv, I couldn’t believe the results at first:"
+      - paragraph [ref=e27]:
+        - text: "Testfile: 250 mb (6215000 x 4 tab-separated datapoints) Testsystem: Laptop with internal SSD using the ipython"
+        - code [ref=e28]: "%timeit"
+        - text: function for timing
+      - heading "Numpy:" [level=3] [ref=e29]
+      - code [ref=e31]:
+        - generic [ref=e32]: import numpy as np
+        - generic [ref=e33]: "%timeit data = np.loadtxt(\"./data\")"
+      - paragraph [ref=e34]:
+        - strong [ref=e35]: "Result:"
+        - text: "1 loops, best of 3: 36.6 s per loop"
+      - heading "Pandas:" [level=3] [ref=e36]
+      - code [ref=e38]:
+        - generic [ref=e39]: import pandas as pd
+        - generic [ref=e40]: "%timeit data = pd.read_csv(\"./data\", delimiter = \"\\t\", names=[\"col1\", \"col2\", \"col3\", \"col4\"])"
+      - paragraph [ref=e41]:
+        - strong [ref=e42]: "Result:"
+        - text: "1 loops, best of 3: 2.36 s per loop"
+      - paragraph [ref=e43]: A speed increase of a whopping factor of 15!! So just stop using np.loadtxt and start using pd.read_csv instead. It is much faster and pandas might be package you want to use anyway when dealing with large datasets.
+      - paragraph [ref=e44]:
+        - text: If you want to learn more about the pure awesomeness of the pandas csv-parser check out this excellent
+        - link "blog post" [ref=e45] [cursor=pointer]:
+          - /url: http://wesmckinney.com/blog/a-new-high-performance-memory-efficient-file-parser-engine-for-pandas/
+        - text: written by the pandas project creator, Wes McKinney, himself.
+      - paragraph [ref=e46]:
+        - strong [ref=e47]: "EDIT:"
+        - text: As pointed in the comments, read_csv doesn’t work with an iterator as input (loadtxt does). Luckily a member of the great StackOverflow community came up with a
+        - link "solution" [ref=e48] [cursor=pointer]:
+          - /url: "%5Bhttp://stackoverflow.com/questions/33927320/pandas-read-csv-and-python-iterator-as-input"
+        - text: ". Just create a string from the iterator and use the StringIO module to pass it to the read_csv function:"
+      - code [ref=e50]:
+        - generic [ref=e51]: pd.read_csv(StringIO("\n".join(iter)))
+  - contentinfo [ref=e52]:
+    - generic:
+      - link [ref=e53] [cursor=pointer]:
+        - /url: https://github.com/AKuederle
+        - img [ref=e54]
+      - link [ref=e57] [cursor=pointer]:
+        - /url: mailto:a.kuederle@gmail.com?Subject=Blog%20Comment
+        - img [ref=e58]
+      - link [ref=e63] [cursor=pointer]:
+        - /url: http://feeds.feedburner.com/ArneKuederle
+        - img [ref=e64]
+    - generic [ref=e68]: © 2015-2017 Arne Küderle All Rights Reserved

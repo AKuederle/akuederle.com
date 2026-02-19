@@ -1,0 +1,661 @@
+- generic [active] [ref=e1]:
+  - banner [ref=e2]:
+    - navigation [ref=e3]:
+      - list [ref=e4]:
+        - listitem [ref=e6]:
+          - link "Arne Küderle" [ref=e7] [cursor=pointer]:
+            - /url: /
+        - generic [ref=e8]:
+          - listitem [ref=e9]:
+            - link "Archive" [ref=e10] [cursor=pointer]:
+              - /url: /archive
+          - listitem [ref=e11]:
+            - link "Quicktips" [ref=e12] [cursor=pointer]:
+              - /url: /quicktips
+          - listitem [ref=e13]:
+            - link "About" [ref=e14] [cursor=pointer]:
+              - /url: /about
+  - generic [ref=e17]:
+    - banner [ref=e18]:
+      - paragraph [ref=e19]: Jun 1, 2015
+      - heading "Scientific Python NOW! (Part 2)" [level=1] [ref=e20]
+    - generic [ref=e21]:
+      - generic [ref=e22]: Python
+      - generic [ref=e23]: Numpy
+      - generic [ref=e24]: Matplotlib
+      - generic [ref=e25]: SciPy
+    - article [ref=e26]:
+      - paragraph [ref=e27]: This is the second part of my introduction-series to scientific python. This time, we gonna continue with plotting our data and than we gonna move on to some general coding and coding techniques.
+      - paragraph [ref=e28]:
+        - text: If you haven’t read the first part, you can check it out
+        - link "here" [ref=e29] [cursor=pointer]:
+          - /url: /posts/scientific-python-now-1/
+        - text: .
+      - heading "A first Example (Part 2)" [level=3] [ref=e30]
+      - paragraph [ref=e31]:
+        - text: As promised, we start of by improving our python plot we made in the previous part. You can get the code to create it on my
+        - link "Github" [ref=e32] [cursor=pointer]:
+          - /url: https://github.com/AKuederle/scipy-tutorial/tree/part1/example1
+        - text: ". This is how plot looks right now:"
+      - img [ref=e33]
+      - text: It was fine for a first try, but far from a publication-ready figure. We gonna fix that now. I will show you two ways to do it.
+      - heading "The high-level-functions-way" [level=4] [ref=e34]
+      - paragraph [ref=e35]: "The first step is to add axes-labels:"
+      - code [ref=e37]:
+        - generic [ref=e38]: plt.xlabel("wavenumber $\lambda$ [nm]")
+        - generic [ref=e39]: plt.ylabel("intesity [V]")
+      - paragraph [ref=e40]: "That was easy… And we got a proper looking lambda. Pro tip: You can use Latex syntax throughout your matplotlib plots to create awesome looking equations and special characters."
+      - paragraph [ref=e41]: Next, we need to fix the axis limits. It is kind of ugly that the graph starts in the middle of our figure and touches the top border. To make our code reusable we gonna define the new axis-limits relative to our data.
+      - code [ref=e43]:
+        - generic [ref=e44]: "plt.xlim(x_values.min(), x_values.max()) # define beginning and end of the x-axis"
+        - generic [ref=e45]: "plt.ylim(0.8*normalised_data.min(), 1.1*normalised_data.max()) # define beginning and end of the y-axis"
+      - paragraph [ref=e46]: Last, we add a grid to the plot. Generally, you don’t have to do it, but I like the look of it.
+      - code [ref=e48]:
+        - generic [ref=e49]: plt.grid(True)
+      - img [ref=e50]
+      - paragraph [ref=e51]: Well, that a good looking plot, don’t you say?
+      - paragraph [ref=e52]: "Now, you might ask: “That was pretty simple and the result looks fairly good. So, why do we need a second way to do the same?”"
+      - paragraph [ref=e53]:
+        - text: "Good Question! Let me explain: The matplotlib functions we used until now where very high-level. No, this doesn’t mean we had to be very skilled to use them, but rather the opposite. Functions like"
+        - emphasis [ref=e54]: plt.plot
+        - text: do a lot under the hood and modify and create many different components of our plot all at once. This is nice for quick interactive plotting, but comes with the trade-off of sacrificing flexibility and options. Therefore, if you want to create a complex publication-ready plot, I strongly suggest the following way.
+      - heading "The object-oriented-way" [level=4] [ref=e55]
+      - paragraph [ref=e56]: "First, we have to go back to initialising the plot and delete (or comment out) following after the data processing. At the end, our script should only contain the following:"
+      - code [ref=e58]:
+        - generic [ref=e59]: import numpy as np
+        - generic [ref=e60]: import matplotlib.pyplot as plt
+        - generic [ref=e61]: "_, data = np.loadtxt(\"./spec_1\", unpack=True) # loading the data"
+        - generic [ref=e62]: "normalised_data = data/data.max() # normalising"
+        - generic [ref=e63]: x_values = np.linspace(100, 1000, 250)
+        - generic [ref=e64]: "normalised_data = normalised_data[19:] # cutting the data"
+        - generic [ref=e65]: x_values = x_values[19:]
+        - generic [ref=e66]: ormalised_data.min(), 1.1*normalised_data.max())
+      - paragraph [ref=e67]:
+        - text: This time, instead of using
+        - emphasis [ref=e68]: plt.plot
+        - text: ", we gonna create our plot layer by layer. The ground layer, the canvas, is called a figure. We can create a new one (or activate a existing one) by calling"
+      - code [ref=e70]:
+        - generic [ref=e71]: fig = plt.figure("My awesome Plot", figsize=(8, 4), dpi=100)
+      - paragraph [ref=e72]: Inside the parentheses you can specify the name and, very interesting regarding publication guidelines, the size (in inches) and the dpi of the figure. Keep in mind, all these parameters are optional. If you don’t need them, just omit them.
+      - paragraph [ref=e73]:
+        - emphasis [ref=e74]: I highly recommend running the script after each line of code we add, so that you can better understand the different parts of our plot.
+      - paragraph [ref=e75]:
+        - text: If you read my little side-note and ran the script, you probably noticed that nothing really happened. This is, because we haven’t told matplotlib to do anything. We only initialised a figure object and assigned it to a variable (
+        - emphasis [ref=e76]: fig
+        - text: ). To actual make the plot visible we have to call
+        - emphasis [ref=e77]: show()
+        - text: on our figure object at the end of our script.
+      - code [ref=e79]:
+        - generic [ref=e80]: fig.show()
+      - paragraph [ref=e81]:
+        - text: You executed the script again? Still no plot? Yeah, but this time its not the fault of our programming, but rather our choice of tools. The ipython inline-backend (check the the first
+        - link "part of the series" [ref=e82] [cursor=pointer]:
+          - /url: /posts/scientific-python-now-1/
+        - text: to learn more about it) doesn’t support the show command. Therefore, we gonna switch to the qt backend by typing
+        - code [ref=e83]: "%matplotlib qt"
+        - text: into our console (not the script!). Keep in mind, if you restart the shell, you have do this again.
+      - paragraph [ref=e84]: If we rerun our script now, we should end up with a beautiful grey canvas in an external window. Again, check your taskbar; the figure window was probably opened in the background.
+      - paragraph [ref=e85]:
+        - emphasis [ref=e86]: Keep in mind, fig.show() must be called at the end of the script. Hence, AFTER all the following code.
+      - paragraph [ref=e87]:
+        - text: Let’s put something on this grey wall, shall we? What’s usually living inside a matplotlib figure object, is a matplotlib axes object. You can add a new axes-object by using the
+        - emphasis [ref=e88]: add_subplot
+        - text: command.
+      - code [ref=e90]:
+        - generic [ref=e91]: ax = fig.add_subplot(1,1,1)
+      - paragraph [ref=e92]: "This weird numbers right there determine the position of the axes inside the figure in case of multiples subplots. The first two define the size of subplot-grid and the third the position of the plot inside of this grid. So, for example, try:"
+      - code [ref=e94]:
+        - generic [ref=e95]: ax = fig.add_subplot(2,3,4)
+      - paragraph [ref=e96]: This will divide the figure in a subplot-grid with 2 rows and 3 columns and will put the axes on position 4 (outer left position of the second row). Nonetheless, we gonna continue with the 111-subplot.
+      - paragraph [ref=e97]:
+        - text: Now we have to add our data to the plot. As in the last part of this series, we gonna use the
+        - emphasis [ref=e98]: plot
+        - text: command. However, instead of
+        - emphasis [ref=e99]: plt.plot
+        - text: ", we use"
+        - emphasis [ref=e100]: ax.plot
+        - text: to target our created axes directly. This is one of the biggest advantages of creating plots in this object-oriented way. By creating and assigning the figure and all axes to individual variables, we can specifically target them using the variable names. The general
+        - emphasis [ref=e101]: plt.plot
+        - text: "-function always targets the currently active axes object (or creates one); this can be very confusing when creating complex plots."
+      - code [ref=e103]:
+        - generic [ref=e104]: ax.plot(x_values, normalised_data)
+      - paragraph [ref=e105]: By the way, the line we created by this command is a Line2D-matplotlib object. Hence, if you want, you could also target a plotted line individually and alter its properties. But this is usually nothing you should need to do.
+      - paragraph [ref=e106]: "Ok, now our plot is back to the started with today; but this time we have chosen a more object-oriented and expandable approach. Let’s do what we actual wanted to do: making the plot pretty!"
+      - paragraph [ref=e107]: This part is basically identical to the “easy” way. However, we target the axes directly again. Note, that there is a slide change in the syntax (xlabel —> set_xlabel).
+      - code [ref=e109]:
+        - generic [ref=e110]: ax.set_xlabel("wavenumber $\lambda$ [nm]")
+        - generic [ref=e111]: ax.set_ylabel("intesity [V]")
+        - generic [ref=e112]: ax.set_xlim(x_values.min(), x_values.max())
+        - generic [ref=e113]: ax.set_ylim(0.8*normalised_data.min(), 1.1*normalised_data.max())
+        - generic [ref=e114]: ax.grid(True)
+      - paragraph [ref=e115]:
+        - text: "And we prettyied-up the plot again. Before we leave matplotlib alone for a while, I want to point out on more thing: If you need plots with precise sizes and aspect ratios (and you probably will), I highly suggest enabling tight-layout for your plots. This shrinks the subplot, so that non of the labels exceed the figure (learn more"
+        - link "here" [ref=e116] [cursor=pointer]:
+          - /url: http://matplotlib.org/users/tight_layout_guide.html
+        - text: ). You need to put the command at the end of your script right before the show-command.
+      - code [ref=e118]:
+        - generic [ref=e119]: fig.tight_layout()
+      - paragraph [ref=e120]: And another thing… If you want to save your figure, you can use
+      - code [ref=e122]:
+        - generic [ref=e123]: fig.savefig("./example1.pdf")
+      - paragraph [ref=e124]: Even though there are endless formats available, always use a vector format (pdf, eps) unless you have a real good reason not to.
+      - paragraph [ref=e125]:
+        - text: "As always, check out the code on Github if you have any problems following the tutorial:"
+        - link "The “easy” way" [ref=e126] [cursor=pointer]:
+          - /url: https://github.com/AKuederle/scipy-tutorial/tree/way_1
+        - link "The object-oriented way" [ref=e127] [cursor=pointer]:
+          - /url: https://github.com/AKuederle/scipy-tutorial/tree/way_2
+      - heading "Some “real” Coding" [level=3] [ref=e128]
+      - paragraph [ref=e129]:
+        - text: If you are somewhat familiar with any kind of programming language, you may have noticed that we haven’t touch any of the fundamental programming concepts yet - the things that allow to create modular, efficient, non-redundant, and reusable code, and make a scripting language that much superior compared to graphical tools. Looking back on our code, every line can somewhat be translated in a press of a button in Excel or Origin. That’s because everything was written and executed top down. The power of scripting, however, lies in the possibility to automate multiple steps. The “automation-tools” I want to talk about today are
+        - emphasis [ref=e130]: loops
+        - text: ","
+        - emphasis [ref=e131]: functions
+        - text: ", and"
+        - emphasis [ref=e132]: if-else-statements
+        - text: .
+      - heading "Loops" [level=4] [ref=e133]
+      - paragraph [ref=e134]:
+        - text: As the name probably already gave away, loops are used to do something over and over again. In programming there are
+        - emphasis [ref=e135]: for
+        - text: "-loops and"
+        - emphasis [ref=e136]: while
+        - text: "-loops. However, latter are less interesting for scientific programming."
+      - paragraph [ref=e137]: "Their syntax is relatively obvious. Try to translate the following lines into plain English:"
+      - code [ref=e139]:
+        - generic [ref=e140]: "for value in my_list:"
+        - generic [ref=e141]: print(value)
+      - paragraph [ref=e142]:
+        - strong [ref=e143]: For
+        - text: every
+        - strong [ref=e144]: value in my_list
+        - text: ","
+        - strong [ref=e145]: print
+        - text: the
+        - strong [ref=e146]: value
+        - text: .
+      - code [ref=e148]:
+        - generic [ref=e149]: i = 0
+        - generic [ref=e150]: "while i < 10:"
+        - generic [ref=e151]: print(i)
+        - generic [ref=e152]: i = i+1
+      - paragraph [ref=e153]:
+        - strong [ref=e154]: i
+        - text: is equal to
+        - strong [ref=e155]: "0"
+        - text: .
+        - strong [ref=e156]: While i
+        - text: is smaller than
+        - strong [ref=e157]: "10"
+        - text: ","
+        - strong [ref=e158]: print
+        - text: the value of
+        - strong [ref=e159]: i
+        - text: and add
+        - strong [ref=e160]: "1"
+        - text: to
+        - strong [ref=e161]: i
+        - text: .
+      - paragraph [ref=e162]:
+        - text: As you see, simple Python is almost as readable as plain English. Still, we need to talk about the important parts of the syntax and format.
+        - emphasis [ref=e163]: for
+        - text: and
+        - emphasis [ref=e164]: while
+        - text: are referred to as keywords (
+        - emphasis [ref=e165]: import
+        - text: was a keyword, too). They tell the compiler (thing that translates your code into computer readable language) that whatever follows should be treated differently. Another common thing between
+        - emphasis [ref=e166]: while
+        - text: and
+        - emphasis [ref=e167]: for
+        - text: loops is the colon at the end of the command line. It ends the actual command and tells Python that the following lines are part of the loop (“inside” the loop). But how does Python know where the loop ends? While indenting lines is just a matter of good style in other programming languages, in Python it is part of the actual syntax. When entering a multi-line command (like a loop or a function), the compiler expects an indentation in the following line(s) and reads until a non-indented line is found. Of course, you can have multiple nested levels of indentation in your code. Besides the
+        - emphasis [ref=e168]: for
+        - text: and the colon, the
+        - emphasis [ref=e169]: for
+        - text: "-loop expects another keyword. The “in” separates the variable declaration from the value-list. So, to write a"
+        - emphasis [ref=e170]: for
+        - text: "-loop you need:"
+      - paragraph [ref=e171]:
+        - strong [ref=e172]: for
+        - emphasis [ref=e173]: names-of-variables
+        - strong [ref=e174]: in
+        - emphasis [ref=e175]: iterable-object-which-yields-values
+        - strong [ref=e176]: ":"
+        - strong [ref=e177]: TAB
+        - emphasis [ref=e178]: code-line-1
+        - strong [ref=e179]: TAB
+        - emphasis [ref=e180]: code-line-2
+      - paragraph [ref=e181]: "Here is a more advanced example:"
+      - code [ref=e183]:
+        - generic [ref=e184]: array = [["a1", "a2"], ["b1", "b2"], ["c3","c4"]]
+        - generic [ref=e185]: "for element1, element2 in array:"
+        - generic [ref=e186]: "print(element1 + \": \" + element2)"
+      - paragraph [ref=e187]: In contrast to the first loop I showed, two variables (element1 and element2) are assigned here. Python will call the elements inside array one by one. So in the first iteration, array returns array[0] = [“a1”, “a2”]. Because we provided two variable names, Python tries to unpack the returned sub-array. Unpacking means, Python looks inside the sub-array and takes the first element and assigns it to the first given variable-name. Then, the compiler takes the second one and assigns it to the second variable-name, and so on. If you don’t got it, don’t worry; just memorize that this is a shortcut for
+      - code [ref=e189]:
+        - generic [ref=e190]: array = [["a1", "a2"], ["b1", "b2"], ["c3","c4"]]
+        - generic [ref=e191]: "for elements in array:"
+        - generic [ref=e192]: element1 = elements[0]
+        - generic [ref=e193]: element2 = elements[1]
+        - generic [ref=e194]: "print(element1 + \": \" + element2)"
+      - paragraph [ref=e195]:
+        - text: Let’s take a look at the most common use-cases for
+        - emphasis [ref=e196]: for
+        - text: "-loops in scientific computing. First, of course, the obvious: iterating through a list or array as in the examples above and performing some calculations on each line. However, when you do matrix based computing (= using numpy arrays), step back for a second, consult the"
+        - link "numpy documentation" [ref=e197] [cursor=pointer]:
+          - /url: http://docs.scipy.org/doc/numpy/
+        - text: ", and check if there isn’t a function, which could replace your"
+        - emphasis [ref=e198]: for
+        - text: "-loop. The native numpy functions are often a few orders of magnitudes faster (and simpler to read) than a self-written loop. For example, if want to calculate the mean of each line in a 2D-array, you could do something like this:"
+      - paragraph [ref=e199]:
+        - emphasis [ref=e200]:
+          - text: Keep in mind, you need to import numpy as np again and ran the code in our ipython console or from a script. Check out the first
+          - link "part" [ref=e201] [cursor=pointer]:
+            - /url: /posts/scientific-python-now-1/
+          - text: if you have problems with that.
+      - code [ref=e203]:
+        - generic [ref=e204]: import numpy as np
+        - generic [ref=e205]: "data_array = np.random.rand(50, 100) # generate some random data"
+        - generic [ref=e206]: result_array = np.array([])
+        - generic [ref=e207]: "for line in data_array:"
+        - generic [ref=e208]: sum = 0
+        - generic [ref=e209]: "for data in line:"
+        - generic [ref=e210]: "sum += data # += is equivalent to sum = sum + data"
+        - generic [ref=e211]: result_array = np.append(result_array, [sum], axis=0)
+      - paragraph [ref=e212]:
+        - text: While this way might be a good practice to understand
+        - emphasis [ref=e213]: for
+        - text: "-loops, it is quiet extensive for such a simple task. Luckily, numpy already has what we need:"
+      - code [ref=e215]:
+        - generic [ref=e216]: import numpy as np
+        - generic [ref=e217]: "data_array = np.random.rand(50, 100) # generate some random data"
+        - generic [ref=e218]: "result_array = np.mean(data_array, axis=1) # You need to specify the axis, as we only want the mean along one axis"
+      - paragraph [ref=e219]: This method is not only shorter to write and clearer to understand, but also 15x faster than the first one (1.52 ms vs. 0.102 ms).
+      - paragraph [ref=e220]:
+        - text: Nonetheless, if you evaluated that you are in need of a
+        - emphasis [ref=e221]: for
+        - text: "-loop, here are some examples and handy tricks."
+      - paragraph [ref=e222]: "Sometimes, you not not only want to have the the values of a list, but also their respective index. You could do this:"
+      - code [ref=e224]:
+        - generic [ref=e225]: test_array = np.random.rand(10)
+        - generic [ref=e226]: "for index in range(0, len(test_array)):"
+        - generic [ref=e227]: print(index, test_array[index])
+      - paragraph [ref=e228]:
+        - text: However, a much cleaner way would be to use the “double”-iteration from before in combination with the powerful
+        - emphasis [ref=e229]: enumerate
+        - text: "-command:"
+      - paragraph [ref=e230]:
+        - emphasis [ref=e231]: "Enumerate yields a list with the index and the value for each element in the input-list. Just try: print(list(enumerate(test_array)))"
+      - code [ref=e233]:
+        - generic [ref=e234]: test_array = np.random.rand(10)
+        - generic [ref=e235]: "for index, value in enumerate(test_array):"
+        - generic [ref=e236]: print(index, value)
+      - paragraph [ref=e237]:
+        - text: If you need the index to work on two arrays simultaneously, you can instead use the
+        - emphasis [ref=e238]: zip
+        - text: "-command together with a “double”-iteration:"
+      - code [ref=e240]:
+        - generic [ref=e241]: test_array_1 = np.random.rand(10)
+        - generic [ref=e242]: test_array_2 = np.random.rand(10)
+        - generic [ref=e243]: "for value_1, value_2 in zip(test_array_1, test_array_2):"
+        - generic [ref=e244]: print(value_1, value_2)
+      - paragraph [ref=e245]:
+        - emphasis [ref=e246]: The zip command takes two (or more) lists of equal length and returns a new list which holds the old lists combined element-wise. Check it out by trying print(list(zip(test_array_1, test_array_2))).
+      - paragraph [ref=e247]: This is again much cleaner and “pythonic” than doing
+      - code [ref=e249]:
+        - generic [ref=e250]: test_array_1 = np.random.rand(10)
+        - generic [ref=e251]: test_array_2 = np.random.rand(10)
+        - generic [ref=e252]: "for index in range(0, len(test_array)):"
+        - generic [ref=e253]: value_1 = test_array_1[index]
+        - generic [ref=e254]: value_2 = test_array_2[index]
+        - generic [ref=e255]: print(value_1, value_2)
+      - paragraph [ref=e256]: When you want to iterate over the rows of your array instead of the lines, you can simply transpose the array before iterating.
+      - code [ref=e258]:
+        - generic [ref=e259]: test_array = np.random.rand(2,10)
+        - generic [ref=e260]: "for row in test_array.T:"
+        - generic [ref=e261]: print(row)
+      - paragraph [ref=e262]:
+        - text: If you want to access all elements of a multidimensional array individually, you can call flatten on it before entering the
+        - emphasis [ref=e263]: for
+        - text: "-loop:"
+      - code [ref=e265]:
+        - generic [ref=e266]: test_array = np.random.rand(2,10)
+        - generic [ref=e267]: "for value in test_array.flatten():"
+        - generic [ref=e268]: print(value)
+      - paragraph [ref=e269]:
+        - emphasis [ref=e270]: Don’t forget, the last two examples only work with numpy.arrays and not with simple lists!
+      - paragraph [ref=e271]:
+        - text: Let’s take a quick look at
+        - emphasis [ref=e272]: while
+        - text: "-loops. As said, they are not that important in scientific computing. Nonetheless, you gonna use them now and then. In contrast to a"
+        - emphasis [ref=e273]: for
+        - text: "-loop, a"
+        - emphasis [ref=e274]: while
+        - text: "-loop doesn’t run until the end of a list is reached, but rather until a certain statement is not True anymore. To write a"
+        - emphasis [ref=e275]: while
+        - text: "-loop you need the keyword"
+        - strong [ref=e276]: while
+        - text: followed by this statement. The statement always consists of a variable, a comparator-operator, and a comparison value. The only exception is the
+        - emphasis [ref=e277]: "while True:"
+        - text: loop, which simply runs forever.
+      - paragraph [ref=e278]: The most common usecase in scientific computing are probably approximation-algorithms. For example, the numerical calculation of function roots using the Newton iteration.
+      - code [ref=e280]:
+        - generic [ref=e281]: x_new = x0
+        - generic [ref=e282]: x_old = x_new + 2*h
+        - generic [ref=e283]: "while abs(x_old-x_new) >= h:"
+        - generic [ref=e284]: x_old = x_new
+        - generic [ref=e285]: "try:"
+        - generic [ref=e286]: x_new = x_old - f(x_old)/derivate(f, x_old, h)
+        - generic [ref=e287]: "except:"
+        - generic [ref=e288]: x_new = np.nan
+        - generic [ref=e289]: break
+      - paragraph [ref=e290]:
+        - text: I won’t explain the details of the algorithm or this specific code snippet here, but as you can see, it uses a while loop to check if the algorithm has already converged. The statement checks if the difference between the calculated value of the root and the one calculated in the previous iteration is bigger than a specified threshold
+        - emphasis [ref=e291]: h
+        - text: . If this is not True anymore, the loop breaks and it is assumed that the algorithm has converged. The last calculated x-value is than one root of the given function f(x).
+      - heading "If-else Statements" [level=4] [ref=e292]
+      - paragraph [ref=e293]: If-else statements are exactly what it sounds like they are; they are used to execute some lines of code only if a certain condition is met.
+      - paragraph [ref=e294]: Let’s say you want to check if some value is bigger than a certain threshold and sort it based on this.
+      - code [ref=e296]:
+        - generic [ref=e297]: value = 12
+        - generic [ref=e298]: threshold = 10
+        - generic [ref=e299]: "if value > threshold:"
+        - generic [ref=e300]: print("The value is to big)
+      - paragraph [ref=e301]:
+        - text: So, similar to the
+        - emphasis [ref=e302]: while
+        - text: "-loop, a"
+        - emphasis [ref=e303]: if
+        - text: "-statement consists of a keyword ("
+        - strong [ref=e304]: if
+        - text: ), the condition, and a colon. The code which is executed when the condition is true is of course indented. Note, that my example above is a completely valid
+        - emphasis [ref=e305]: if-else
+        - text: "-statement, even tough it has no “else” in it. If you omit the else, Python assumes you just want to do nothing and proceed with the rest of the script, if the statement is not met. Some people want to be more explicit about it and therefore use an empty else statement (“pass” in Python means: “Do nothing, just go on”)."
+      - code [ref=e307]:
+        - generic [ref=e308]: value = 12
+        - generic [ref=e309]: threshold = 10
+        - generic [ref=e310]: "if value > threshold:"
+        - generic [ref=e311]: print("The value is to big)
+        - generic [ref=e312]: "else:"
+        - generic [ref=e313]: pass
+      - paragraph [ref=e314]:
+        - text: Before we get into more complex
+        - emphasis [ref=e315]: if-else
+        - text: "-constructions, we gonna explore the different conditional operator you can use. First you have the mathematical operators (<, >, =). They basically work as expected and can be combined to “is smaller or equal” and “bigger or equal”(<=, >=). However, the order matters; ”=<” and ”=>” are invalid syntax. If you want to test for equality, you have to use the double-equal-sign (==) and for non-equal a explanation mark with a equal sign (!=)."
+      - code [ref=e317]:
+        - generic [ref=e318]: 1 > 2
+        - generic [ref=e319]: "Out[7]: False"
+        - generic [ref=e320]: 1 < 2
+        - generic [ref=e321]: "Out[8]: True"
+        - generic [ref=e322]: 1 > 1
+        - generic [ref=e323]: "Out[9]: False"
+        - generic [ref=e324]: 1 => 1
+        - generic [ref=e325]: File "<ipython-input-10-629858911a41>", line 1
+        - generic [ref=e326]: 1 => 1
+        - generic [ref=e327]: ^
+        - generic [ref=e328]: "SyntaxError: invalid syntax"
+        - generic [ref=e329]: 1 >= 1
+        - generic [ref=e330]: "Out[11]: True"
+        - generic [ref=e331]: 1=1
+        - generic [ref=e332]: File "<ipython-input-12-abb4cdcb09da>", line 1
+        - generic [ref=e333]: 1=1
+        - generic [ref=e334]: ^
+        - generic [ref=e335]: "SyntaxError: can't assign to literal"
+        - generic [ref=e336]: 1==1
+        - generic [ref=e337]: "Out[13]: True"
+        - generic [ref=e338]: 1!=1
+        - generic [ref=e339]: "Out[14]: False"
+      - paragraph [ref=e340]: These mathematical operators are nor limited to integer or float values, but also work with strings, lists, or boolean values (True or False). However, only objects of the same type can be compared. The “magnitude” of a string is determined by its position in the alphabet (“a”<“aa”<“b”<“ba”<“c”), while strings containing numbers are positioned before alphabetic values (“1”<“1a”<“2”<“a”). Regarding booleans, True is by convention bigger than False. Just play around with these examples a little bit to get familiar with the mechanics. As substitution for the double-equal you can just use the English “is”. This is actually the preferred way when comparing boolean values. In combination with any of these comparison operators, you can use the “not” at the beginning to reverse the statement.
+      - code [ref=e342]:
+        - generic [ref=e343]: a = True
+        - generic [ref=e344]: a is True
+        - generic [ref=e345]: "Out[29]: True"
+        - generic [ref=e346]: not a is True
+        - generic [ref=e347]: "Out[30]: False"
+        - generic [ref=e348]: not 1 < 2
+        - generic [ref=e349]: "Out[33]: False"
+      - paragraph [ref=e350]: Another handy thing is to check if something is member of another object. This can be done with the “in” operator.
+      - code [ref=e352]:
+        - generic [ref=e353]: "\"b\" in \"abc\""
+        - generic [ref=e354]: "Out[58]: True"
+        - generic [ref=e355]: 2 in [1, 2, 3]
+        - generic [ref=e356]: "Out[59]: True"
+      - paragraph [ref=e357]: The last important thing to know is, how to check if an object is empty, but exists. If you assign a new variable using empty quotes or empty square-brackets (empty_string="" or empty_list=[]), an empty object is created. You can check for this inside a if statement by calling the variable name.
+      - paragraph [ref=e358]: "Input:"
+      - code [ref=e360]:
+        - generic [ref=e361]: a = ""
+        - generic [ref=e362]: "if a:"
+        - generic [ref=e363]: print("a is not empty")
+        - generic [ref=e364]: "if not a:"
+        - generic [ref=e365]: print("a is empty")
+      - paragraph [ref=e366]: "Output:"
+      - code [ref=e368]:
+        - generic [ref=e369]: A is empty
+      - paragraph [ref=e370]: You can chain multiple conditional statements together using “and” or “or”.
+      - code [ref=e372]:
+        - generic [ref=e373]: a = 4
+        - generic [ref=e374]: 3 < a < 6
+        - generic [ref=e375]: "Out[61]: True"
+        - generic [ref=e376]: a == 2 or a == 4
+        - generic [ref=e377]: "Out[62]: True"
+        - generic [ref=e378]: b = 5
+        - generic [ref=e379]: a == 4 and b == 5
+        - generic [ref=e380]: "Out[64]: True"
+      - paragraph [ref=e381]:
+        - text: Also, you can combine multiple if statements using the
+        - strong [ref=e382]: elif
+        - text: "-keyword:"
+      - code [ref=e384]:
+        - generic [ref=e385]: a = 2
+        - generic [ref=e386]: "if a == 1:"
+        - generic [ref=e387]: print("a is 1")
+        - generic [ref=e388]: "elif a == 2:"
+        - generic [ref=e389]: print("a is 2")
+        - generic [ref=e390]: "else:"
+        - generic [ref=e391]: print("a is some other number")
+      - paragraph [ref=e392]: The output is of course “a is 2”. But what happens in the following situation?
+      - code [ref=e394]:
+        - generic [ref=e395]: a = 2
+        - generic [ref=e396]: "if a < 3:"
+        - generic [ref=e397]: print("a is smaller than 3")
+        - generic [ref=e398]: "elif a == 2:"
+        - generic [ref=e399]: print("a is 2")
+        - generic [ref=e400]: "else:"
+        - generic [ref=e401]: print("a is some other number")
+      - paragraph [ref=e402]: "Output:"
+      - code [ref=e404]:
+        - generic [ref=e405]: a is smaller than 3
+      - paragraph [ref=e406]:
+        - text: Both, the first and the second statement are true. However, only the first case gets executed. Therefore, to avoid complications, only use
+        - emphasis [ref=e407]: elif
+        - text: ", if just one of the statements can be satisfied at a time. To do something like above, you would just use multiple"
+        - emphasis [ref=e408]: if
+        - text: "-statements."
+      - code [ref=e410]:
+        - generic [ref=e411]: a = 2
+        - generic [ref=e412]: "if a < 3:"
+        - generic [ref=e413]: print("a is smaller than 3")
+        - generic [ref=e414]: "if a == 2:"
+        - generic [ref=e415]: print("a is 2")
+      - paragraph [ref=e416]: "Output:"
+      - code [ref=e418]:
+        - generic [ref=e419]: a is smaller than 3
+        - generic [ref=e420]: a is 2
+      - paragraph [ref=e421]:
+        - text: So I think that’s pretty much everything to know about
+        - emphasis [ref=e422]: if-else
+        - text: "-statements. I gonna spare you with more complex examples as you will see"
+        - emphasis [ref=e423]: if
+        - text: "-statements throughout the next parts of this Python tutorial (how ever many they may be)."
+      - heading "Functions" [level=4] [ref=e424]
+      - paragraph [ref=e425]: "Functions in python are not per se functions in the mathematical sense; they are more like a macro for some lines of code you need to reuse multiple times inside your script. That said, it is important to understand that a function is a separated scope inside your program. It is comparable to a small independent country with strict border controls. Only some people (=python objects) can get in or out and what they do, is of non concern for all the surrounding countries (=rest of your script). Ok, let’s talk Python:"
+      - paragraph [ref=e426]:
+        - text: To create a function you have to use the keyword
+        - emphasis [ref=e427]: def
+        - text: followed by the function name and the input parameters (border-control-rules) enclosed in parentheses. Finally, you end the line with a colon.
+      - code [ref=e429]:
+        - generic [ref=e430]: "def add_1(x):"
+        - generic [ref=e431]: new_x = x + 1
+        - generic [ref=e432]: print(new_x)
+      - paragraph [ref=e433]: I think, it is obvious what this function does. But how to use it and what did I meant by “separated scope”? To use a function you simply have to call it by name and pass input-parameters enclosed in parentheses.
+      - code [ref=e435]:
+        - generic [ref=e436]: add_1(3)
+      - paragraph [ref=e437]: "Here, we called our function with “3” as parameter. So, our “3” immigrates into our small country. However, while doing so, it changed its name and is as of now known as “x” inside of the function’s scope. Than 1 is added and the result is printed out to the screen as expected. Let’s quickly check that this hasn’t changed anything outside the function. If we try to call new_x outside the function, we get the following error message:"
+      - paragraph [ref=e438]: "Input:"
+      - code [ref=e440]:
+        - generic [ref=e441]: "def add_1(x):"
+        - generic [ref=e442]: new_x = x + 1
+        - generic [ref=e443]: print(new_x)
+        - generic [ref=e444]: add_1(3)
+        - generic [ref=e445]: print(new_x)
+      - paragraph [ref=e446]: "Output:"
+      - code [ref=e448]:
+        - generic [ref=e449]: "4"
+        - generic [ref=e450]: NameError Traceback (most recent call last)
+        - generic [ref=e451]: <ipython-input-34-938af61573da> in <module>()
+        - generic [ref=e452]: 5 add_1(3)
+        - generic [ref=e453]: "6"
+        - generic [ref=e454]: "----> 7 print(new_x)"
+        - generic [ref=e455]: "NameError: name 'new_x' is not defined"
+      - paragraph [ref=e456]: So, “new_x” doesn’t exist outside of the function. The other way around, however, you can access (but not modify) variables defined outside the scope without explicitly passing them.
+      - paragraph [ref=e457]: "Input:"
+      - code [ref=e459]:
+        - generic [ref=e460]: "def add_1(x):"
+        - generic [ref=e461]: print(y)
+        - generic [ref=e462]: new_x = x + 1
+        - generic [ref=e463]: print(new_x)
+        - generic [ref=e464]: y = 4
+        - generic [ref=e465]: add_1(3)
+      - paragraph [ref=e466]: "Output:"
+      - code [ref=e468]:
+        - generic [ref=e469]: "4"
+        - generic [ref=e470]: "4"
+      - paragraph [ref=e471]:
+        - text: I am only showing this very briefly, because I want you to immediately forget that this option even exists. Using global variables inside a scope is a
+        - strong [ref=e472]: very bad habit
+        - text: . If you need certain variables inside of your function, pass them as arguments.
+      - paragraph [ref=e473]:
+        - text: Now that we understood the concept of passing variables from our script to a function, its time to learn how to retrieve variables from a function. Using the
+        - strong [ref=e474]: return
+        - text: statement, it is possible to capture the output of a function. On the script-side this output can be assigned to a variable.
+      - code [ref=e476]:
+        - generic [ref=e477]: "def add_1(x):"
+        - generic [ref=e478]: new_x = x + 1
+        - generic [ref=e479]: return new_x
+        - generic [ref=e480]: result = add_1(3)
+        - generic [ref=e481]: print(result)
+      - paragraph [ref=e482]: "You can also return multiple values:"
+      - code [ref=e484]:
+        - generic [ref=e485]: "def add_1(x):"
+        - generic [ref=e486]: new_x = x + 1
+        - generic [ref=e487]: return x, new_x
+        - generic [ref=e488]: old_x, result = add_1(3)
+        - generic [ref=e489]: print(old_x, result)
+      - paragraph [ref=e490]: Before we move on to some advanced examples (unfortunately not in this part of the tutorial), I want to show you the real power of parameter-passing in Python. Fist, passing parameters by name instead of position.
+      - paragraph [ref=e491]: "Lets say, we have a function, which takes 3 arguments:"
+      - code [ref=e493]:
+        - generic [ref=e494]: "def add_values(x, y, print_result):"
+        - generic [ref=e495]: result = x + y
+        - generic [ref=e496]: "if print_result is True:"
+        - generic [ref=e497]: print(result)
+        - generic [ref=e498]: "else:"
+        - generic [ref=e499]: return result
+      - paragraph [ref=e500]: "What does this function do? - It adds up the first two arguments and prints the result to the screen if the third argument is set to True. If not, it just returns the value to the rest of the script. We can call it like this:"
+      - code [ref=e502]:
+        - generic [ref=e503]: add_values(4, 6, True)
+      - paragraph [ref=e504]: "We chose a good name for our function. So, by just looking at this line, it is pretty clear that the function is gonna add up the first two values. But, what is the “True” doing? Fortunately, Python support calling arguments by name. This makes the call immediately understandable:"
+      - code [ref=e506]:
+        - generic [ref=e507]: add_values(4, 6, print_value=True)
+      - paragraph [ref=e508]: "But be careful, you can’t call a keyword argument (call by name) before a non-keyword argument (call by position). Doing so, will produce an error:"
+      - code [ref=e510]:
+        - generic [ref=e511]: add_values(x=4,5, True)
+        - generic [ref=e512]: File "<ipython-input-73-620c6e9c73c7>", line 1
+        - generic [ref=e513]: add_values(x=4,5, True)
+        - generic [ref=e514]: ^
+        - generic [ref=e515]: "SyntaxError: non-keyword arg after keyword arg"
+      - paragraph [ref=e516]: "Therefore, always put the arguments which should be callable by name at the end when declaring your function. Furthermore, we should consider making the print parameter optional. Most of the time it will be set to false any way (if anybody would use this kind of useless function). So, it is just annoying to type it out every damn time. To make a parameter optional, just give it a default value like so:"
+      - code [ref=e518]:
+        - generic [ref=e519]: "def add_values(x, y, print_result=False):"
+        - generic [ref=e520]: result = x + y
+        - generic [ref=e521]: "if print_result is True:"
+        - generic [ref=e522]: print(result)
+        - generic [ref=e523]: "else:"
+        - generic [ref=e524]: return result
+      - paragraph [ref=e525]: Now we can just omit the parameter when calling the function and if we don’t want to print out the value.
+      - code [ref=e527]:
+        - generic [ref=e528]: add_values(4, 6)
+      - paragraph [ref=e529]: "Or specify it when we want to have the print functionality:"
+      - code [ref=e531]:
+        - generic [ref=e532]: add_values(4, 6, print_value=True)
+      - paragraph [ref=e533]: So these are the essentials to getting started on the pure Python side of things. Of course, we barley scratched the surface, but I think it is enough for now. I want to finish up this part of the tutorial with a few words about object oriented programming. Yeah… No real practical example this time around because the post is already pretty long. But, we gonna use this opportunity and kick of the next lesson with a nice, more complex example to refresh our knowledge about everything we learned so far.
+      - heading "Object oriented" [level=3] [ref=e534]
+      - paragraph [ref=e535]: "As you already know, Python is heavily object oriented; everything is an object. If you want to be a efficient Python programmer you have to understand that and use it to your advantage. Because everything is an object, there is no real difference between a list, a string, a function, or even a module; they all treated as objects with their respective functions and properties. Therefore, you can take all these objects, pass them around, assign them to variables, return them as function outputs, put them in lists, and so on without changing anything about the object itself. For example, something like this works:"
+      - code [ref=e537]:
+        - generic [ref=e538]: "def add_1(x):"
+        - generic [ref=e539]: new_x = x + 1
+        - generic [ref=e540]: print(new_x)
+        - generic [ref=e541]: my_add_function = add_1
+        - generic [ref=e542]: my_add_function(5)
+      - paragraph [ref=e543]: "Or:"
+      - code [ref=e545]:
+        - generic [ref=e546]: "def add_1(x):"
+        - generic [ref=e547]: new_x = x + 1
+        - generic [ref=e548]: print(new_x)
+        - generic [ref=e549]: "def add_2(x):"
+        - generic [ref=e550]: new_x = x + 2
+        - generic [ref=e551]: print(new_x)
+        - generic [ref=e552]: my_add_functions = [add_1, add_2]
+        - generic [ref=e553]: my_add_functions[0](5)
+        - generic [ref=e554]: my_add_functions[1](3)
+      - paragraph [ref=e555]: "You can even pass a function as argument to another function:"
+      - paragraph [ref=e556]: "Input:"
+      - code [ref=e558]:
+        - generic [ref=e559]: "def my_add(x,y):"
+        - generic [ref=e560]: return x+y
+        - generic [ref=e561]: "def my_sub(x,y):"
+        - generic [ref=e562]: return x-y
+        - generic [ref=e563]: "def math(x,y,operation):"
+        - generic [ref=e564]: return operation(x,y)
+        - generic [ref=e565]: math(4,8, operation = my_sub)
+        - generic [ref=e566]: math(4,8, operation = my_add)
+      - paragraph [ref=e567]: "Output:"
+      - code [ref=e569]:
+        - generic [ref=e570]: "12"
+        - generic [ref=e571]: "-4"
+      - paragraph [ref=e572]: And finally to fully get into Python’s “black magic”, create and return a function from a function. This is called a “closure”.
+      - paragraph [ref=e573]: "Input:"
+      - code [ref=e575]:
+        - generic [ref=e576]: "def add_creator(value):"
+        - generic [ref=e577]: "def add(x):"
+        - generic [ref=e578]: print(x + value)
+        - generic [ref=e579]: return add
+        - generic [ref=e580]: add_1 = add_creator(1)
+        - generic [ref=e581]: add_5 = add_creator(5)
+        - generic [ref=e582]: add_7 = add_creator(7)
+        - generic [ref=e583]: add_1(3)
+        - generic [ref=e584]: add_5(3)
+        - generic [ref=e585]: add_7(3)
+      - paragraph [ref=e586]: "Output:"
+      - code [ref=e588]:
+        - generic [ref=e589]: "4"
+        - generic [ref=e590]: "8"
+        - generic [ref=e591]: "10"
+      - paragraph [ref=e592]:
+        - emphasis [ref=e593]: Don’t worry if you don’t get it… Its not something you gonna need very often.
+      - paragraph [ref=e594]:
+        - text: The other important thing that derives from Python’s object orientation, is that many basic things you do, are actual function calls on an object. For example, if you are trying to get an element from a list (list[n]), no Voodoo happens, but rather the
+        - emphasis [ref=e595]: __getitem__()
+        - text: "-function of the list object is called. With this knowledge, you can mess around and change the fundamental behaviour of python, or enable cool things, like element calling, for custom created objects. But this is again a lesson for another day. For now, just keep in mind, everything is an object and can be passed around without loosing its properties and behaviours."
+      - paragraph [ref=e596]:
+        - emphasis [ref=e597]: "PS: Maybe you read through this tutorial and thought, why the hell should I need a function which can add 1 to a value, or why do I possible want to check if 12 is greater than 10? Simple answer - You don’t! These short example are meant to visualise the syntax and the basic possibilities. In a complex example it is much harder to showcase only a single basic part of Python’s capabilities. However, if you understood this basic examples, I am sure you can think of more complex and useful ones. With that said, keep on coding and learning!"
+      - paragraph [ref=e598]: This is everything for today. I am sure you learned something and further I hope that I woken your interest to learn more about Python. As always, leave a comment or contact me in any other way if you have questions, critic, suggestions, or anything else.
+  - contentinfo [ref=e599]:
+    - generic:
+      - link [ref=e600] [cursor=pointer]:
+        - /url: https://github.com/AKuederle
+        - img [ref=e601]
+      - link [ref=e604] [cursor=pointer]:
+        - /url: mailto:a.kuederle@gmail.com?Subject=Blog%20Comment
+        - img [ref=e605]
+      - link [ref=e610] [cursor=pointer]:
+        - /url: http://feeds.feedburner.com/ArneKuederle
+        - img [ref=e611]
+    - generic [ref=e615]: © 2015-2017 Arne Küderle All Rights Reserved

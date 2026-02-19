@@ -1,0 +1,37 @@
+- generic [active] [ref=e1]:
+  - banner [ref=e2]:
+    - navigation [ref=e3]:
+      - list [ref=e4]:
+        - listitem [ref=e6]:
+          - link "Arne Küderle" [ref=e7] [cursor=pointer]:
+            - /url: /
+        - generic [ref=e8]:
+          - listitem [ref=e9]:
+            - link "Archive" [ref=e10] [cursor=pointer]:
+              - /url: /archive
+          - listitem [ref=e11]:
+            - link "Quicktips" [ref=e12] [cursor=pointer]:
+              - /url: /quicktips
+          - listitem [ref=e13]:
+            - link "About" [ref=e14] [cursor=pointer]:
+              - /url: /about
+  - generic [ref=e17]:
+    - banner [ref=e18]:
+      - heading "Why this blog exists..." [level=1] [ref=e19]
+    - article [ref=e20]:
+      - paragraph [ref=e21]: My name is Arne Küderle and I am about to finish my Master degree in Biomedical Engineering after a successful Bachelor degree in Biophysics. Coding or rather tech in general is a passion of mine for a few years now. However, you know that you can not remember all of the things. Therefore, I started writing some of it down. An why not make it public to everybody? - That's how this blog was born. But now, as I got experienced in programming, especially in a scientific environment, I realized a lot of shortcomings in how people work with code and that the general adoption of programming in many fields is lacking at best. Therefore, I want this blog to be a demonstration of how code can ease your life and how better code can make you a better researcher!
+      - paragraph [ref=e22]: The blog is divided in two section. First the regular, standard blog section with full length posts, and second the Quicktips, where I collect small tips and snippets of code, which are not worth a full length post. Content-wise I am going to write about what ever topic I'm working on at given time. Usually this is gonna be Windows or Linux related topics on the workflow side of things and Python on the coding site.
+      - paragraph [ref=e23]: Have fun reading! And feel free to contact me in any way!
+      - paragraph [ref=e24]: "P.S.: I really enjoy teaching and helping others. So, if you have a project you are stuck with, or just need a little mentoring in any of the topics I write about, I would be happy to help you (If I can find the time of course)!"
+  - contentinfo [ref=e25]:
+    - generic:
+      - link [ref=e26] [cursor=pointer]:
+        - /url: https://github.com/AKuederle
+        - img [ref=e27]
+      - link [ref=e30] [cursor=pointer]:
+        - /url: mailto:a.kuederle@gmail.com?Subject=Blog%20Comment
+        - img [ref=e31]
+      - link [ref=e36] [cursor=pointer]:
+        - /url: http://feeds.feedburner.com/ArneKuederle
+        - img [ref=e37]
+    - generic [ref=e41]: © 2015-2017 Arne Küderle All Rights Reserved
