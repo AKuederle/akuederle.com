@@ -1,6 +1,6 @@
-_site
-.sass-cache
-*.lock
-*.db
-**/.directory
-Thumbs.db
+node_modules/
+dist/
+.astro/
+.env*
+*.log
+.DS_Store

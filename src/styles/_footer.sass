@@ -1,0 +1,47 @@
+footer
+  margin: 0 auto
+  background-color: white
+  max-width: $page-width
+  height: 40px
+  .social
+    .github-link
+      position: relative
+      margin: 5px
+      float: left
+      z-index: 2
+      path
+        fill: $text-color
+      svg:hover
+        path
+          fill: $header-link-hover
+    .mailto-link
+      position: relative
+      margin: 5px
+      float: left
+      z-index: 2
+      #mail-icon
+        fill: white
+      #mail-circle
+        fill: $text-color
+      svg:hover
+        #mail-circle
+          fill: $header-link-hover
+    .rss-feed
+      position: relative
+      margin: 5px
+      float: left
+      z-index: 2
+      fill: $text-color
+      #rss-icon
+        fill: white
+      svg:hover
+        #rss-circle
+          fill: $header-link-hover
+
+  .copy
+    color: $text-color
+    position: relative
+    top: 35%
+    font-size: 11px
+    text-align: center
+    z-index: 1

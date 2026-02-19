@@ -1,0 +1,24 @@
+---
+import Post from '../../layouts/Post.astro';
+import { getCollection, render } from 'astro:content';
+
+export async function getStaticPaths() {
+  const tips = await getCollection('quicktips');
+  return tips.map((tip) => ({
+    params: { slug: tip.id },
+    props: { tip },
+  }));
+}
+
+const { tip } = Astro.props;
+const { Content } = await render(tip);
+---
+
+<Post
+  title={tip.data.title}
+  date={tip.data.date}
+  tags={tip.data.tags}
+  description={tip.data.description}
+>
+  <Content />
+</Post>

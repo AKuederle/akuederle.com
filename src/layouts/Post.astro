@@ -1,0 +1,37 @@
+---
+import Base from './Base.astro';
+
+interface Props {
+  title: string;
+  date: Date;
+  tags?: string;
+  description?: string;
+}
+
+const { title, date, tags, description } = Astro.props;
+
+const formattedDate = date.toLocaleDateString('en-US', {
+  year: 'numeric',
+  month: 'short',
+  day: 'numeric',
+});
+
+const tagList = tags ? tags.split(' ').filter(Boolean) : [];
+---
+
+<Base title={title} description={description}>
+  <div class="post">
+    <header class="post-header">
+      <p class="post-meta">{formattedDate}</p>
+      <h1 class="post-title">{title}</h1>
+    </header>
+    <div class="tags">
+      {tagList.map((tag) => (
+        <span class="tag">{tag}</span>
+      ))}
+    </div>
+    <article class="post-content">
+      <slot />
+    </article>
+  </div>
+</Base>
