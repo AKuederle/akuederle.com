@@ -1,67 +1,51 @@
-<header class="head">
-  <nav id="nav">
-    <ul>
-      <div class="title-link">
-      <li><a href="/">Arne Küderle</a></li>
-      </div>
-      <div id="menu-icon">
-        <li>
-          <svg height="32px" id="Layer_1" style="enable-background:new 0 0 32 32;" version="1.1" viewBox="0 0 32 32" width="32px" xml:space="preserve" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><path d="M4,10h24c1.104,0,2-0.896,2-2s-0.896-2-2-2H4C2.896,6,2,6.896,2,8S2.896,10,4,10z M28,14H4c-1.104,0-2,0.896-2,2  s0.896,2,2,2h24c1.104,0,2-0.896,2-2S29.104,14,28,14z M28,22H4c-1.104,0-2,0.896-2,2s0.896,2,2,2h24c1.104,0,2-0.896,2-2  S29.104,22,28,22z"/></svg>
-        </li>
-      </div>
-      <div id="links" class="inline-menu">
-        <li><a href="/archive">Archive</a></li>
-        <li><a href="/quicktips">Quicktips</a></li>
-        <li><a href="/about">About</a></li>
-      </div>
+<header class="w-full max-w-[750px] mx-auto px-5 md:px-0 pt-8 pb-4">
+  <nav class="flex items-center justify-between" aria-label="Main navigation">
+    <a href="/" class="font-(family-name:--font-mono) text-xl font-bold text-(--color-text) hover:text-(--color-accent) no-underline transition-colors duration-150">
+      Arne Küderle
+    </a>
+    <button
+      id="menu-toggle"
+      class="md:hidden text-(--color-text-muted) hover:text-(--color-accent) transition-colors duration-150 p-1"
+      aria-expanded="false"
+      aria-controls="mobile-nav"
+      aria-label="Toggle navigation menu"
+    >
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+        <line x1="3" y1="6" x2="21" y2="6" />
+        <line x1="3" y1="12" x2="21" y2="12" />
+        <line x1="3" y1="18" x2="21" y2="18" />
+      </svg>
+    </button>
+    <ul class="hidden md:flex gap-6 list-none m-0 p-0 font-(family-name:--font-mono) text-sm">
+      <li><a href="/archive" class="text-(--color-text-muted) hover:text-(--color-accent) no-underline transition-colors duration-150">Archive</a></li>
+      <li><a href="/quicktips" class="text-(--color-text-muted) hover:text-(--color-accent) no-underline transition-colors duration-150">Quicktips</a></li>
+      <li><a href="/about" class="text-(--color-text-muted) hover:text-(--color-accent) no-underline transition-colors duration-150">About</a></li>
     </ul>
   </nav>
+  <ul id="mobile-nav" class="hidden flex-col gap-4 pt-4 list-none m-0 p-0 font-(family-name:--font-mono) text-base md:!hidden">
+    <li><a href="/archive" class="text-(--color-text-muted) hover:text-(--color-accent) no-underline transition-colors duration-150">Archive</a></li>
+    <li><a href="/quicktips" class="text-(--color-text-muted) hover:text-(--color-accent) no-underline transition-colors duration-150">Quicktips</a></li>
+    <li><a href="/about" class="text-(--color-text-muted) hover:text-(--color-accent) no-underline transition-colors duration-150">About</a></li>
+  </ul>
 </header>
 
 <script>
   function setupMenu() {
-    const menuIcon = document.getElementById('menu-icon');
-    const links = document.getElementById('links');
-    if (!menuIcon || !links) return;
+    const toggle = document.getElementById('menu-toggle');
+    const mobileNav = document.getElementById('mobile-nav');
+    if (!toggle || !mobileNav) return;
 
-    let menuVisible = false;
-
-    function widthChange(mq: MediaQueryList | MediaQueryListEvent) {
-      if (mq.matches) {
-        if (menuVisible) {
-          links.style.display = '';
-          menuVisible = false;
-        }
-        links.classList.remove('mobile-menu');
-        links.classList.add('inline-menu');
-        links.style.display = '';
-        menuIcon.style.display = 'none';
-      } else {
-        menuIcon.style.display = 'inline';
-        links.style.display = 'none';
-        links.classList.remove('inline-menu');
-        links.classList.add('mobile-menu');
-      }
+    function handleToggle() {
+      const expanded = toggle.getAttribute('aria-expanded') === 'true';
+      toggle.setAttribute('aria-expanded', String(!expanded));
+      mobileNav.classList.toggle('hidden');
+      mobileNav.classList.toggle('flex');
     }
 
-    const mq = window.matchMedia('(min-width: 650px)');
-    mq.addEventListener('change', widthChange);
-    widthChange(mq);
-
-    menuIcon.addEventListener('click', () => {
-      if (menuVisible) {
-        links.style.display = 'none';
-        menuVisible = false;
-        return;
-      }
-      links.style.display = 'block';
-      menuVisible = true;
-    });
-
-    links.addEventListener('click', () => {
-      links.style.display = 'none';
-      menuVisible = false;
-    });
+    // Remove old listeners by cloning
+    const newToggle = toggle.cloneNode(true);
+    toggle.parentNode?.replaceChild(newToggle, toggle);
+    newToggle.addEventListener('click', handleToggle);
   }
 
   setupMenu();
