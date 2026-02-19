@@ -134,7 +134,7 @@
     margin: 1.5em 0;
   }
 
-  /* Code blocks break out wider */
+  /* Code blocks */
   .post-content .astro-code {
     font-family: var(--font-mono);
     font-size: 0.875rem;
@@ -142,17 +142,7 @@
     padding: 1rem 1.25rem;
     border-radius: 0.375rem;
     overflow-x: auto;
-    margin: 1.5em -132px;
-    max-width: calc(100% + 264px);
-  }
-
-  @media (max-width: 1080px) {
-    .post-content .astro-code {
-      margin-left: 0;
-      margin-right: 0;
-      max-width: 100%;
-      border-radius: 0;
-    }
+    margin: 1.5em 0;
   }
 
   .post-content :not(pre) > code {
@@ -163,13 +153,10 @@
     border-radius: 0.25rem;
   }
 
-  /* Images break out wider */
+  /* Images */
   .post-content img {
-    max-width: min(1015px, calc(100vw - 2.5rem));
-    margin: 1.5em auto;
+    max-width: 100%;
+    margin: 1.5em 0;
     display: block;
-    position: relative;
-    left: 50%;
-    transform: translateX(-50%);
   }
 }
