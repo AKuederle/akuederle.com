@@ -7,31 +7,25 @@ posts.sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf());
 ---
 
 <Base title="Archive">
-  <div class="post">
-    <header class="post-header">
-      <h1 class="post-title">Archive</h1>
-    </header>
-    <article class="post-content">
-      <div class="archive">
-        {posts.map((post) => {
-          const tagList = post.data.tags ? post.data.tags.split(' ').filter(Boolean) : [];
-          return (
-            <a class="archive-link" href={`/posts/${post.id}/`}>
-              <span class="archive-meta table-cell">
-                {post.data.date.toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric' })}
-              </span>
-              <div class="table-cell">
-                {post.data.title}
-                <div class="tags">
-                  {tagList.map((tag) => (
-                    <span class="tag">{tag}</span>
-                  ))}
-                </div>
-              </div>
-            </a>
-          );
-        })}
-      </div>
-    </article>
+  <h1 class="font-(family-name:--font-mono) text-2xl font-bold mb-8">Archive</h1>
+  <div class="flex flex-col">
+    {posts.map((post) => {
+      const tagList = post.data.tags ? post.data.tags.split(' ').filter(Boolean) : [];
+      return (
+        <a href={`/posts/${post.id}/`} class="group flex items-baseline gap-4 py-2 no-underline border-b border-(--color-border) last:border-b-0">
+          <span class="font-(family-name:--font-mono) text-xs text-(--color-text-muted) shrink-0 w-[100px]">
+            {post.data.date.toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric' })}
+          </span>
+          <span class="font-(family-name:--font-mono) text-sm text-(--color-text) group-hover:text-(--color-accent) transition-colors duration-150">
+            {post.data.title}
+          </span>
+          {tagList.length > 0 && (
+            <span class="hidden md:inline font-(family-name:--font-mono) text-xs text-(--color-text-muted) ml-auto shrink-0">
+              {tagList.join(' · ')}
+            </span>
+          )}
+        </a>
+      );
+    })}
   </div>
 </Base>

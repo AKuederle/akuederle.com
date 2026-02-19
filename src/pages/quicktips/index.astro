@@ -7,28 +7,22 @@ tips.sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf());
 ---
 
 <Base title="Quicktips">
-  <div class="post">
-    <header class="post-header">
-      <h1 class="post-title">Quicktips</h1>
-    </header>
-    <article class="post-content">
-      <div class="quicktips">
-        {tips.map((tip) => {
-          const tagList = tip.data.tags ? tip.data.tags.split(' ').filter(Boolean) : [];
-          return (
-            <a class="quicktips-link" href={`/quicktips/${tip.id}/`}>
-              <div class="tags table-cell">
-                {tagList.map((tag) => (
-                  <span class="tag">{tag}</span>
-                ))}
-              </div>
-              <div class="table-cell">
-                {tip.data.title}
-              </div>
-            </a>
-          );
-        })}
-      </div>
-    </article>
+  <h1 class="font-(family-name:--font-mono) text-2xl font-bold mb-8">Quicktips</h1>
+  <div class="flex flex-col">
+    {tips.map((tip) => {
+      const tagList = tip.data.tags ? tip.data.tags.split(' ').filter(Boolean) : [];
+      return (
+        <a href={`/quicktips/${tip.id}/`} class="group flex items-baseline gap-4 py-2 no-underline border-b border-(--color-border) last:border-b-0">
+          {tagList.length > 0 && (
+            <span class="font-(family-name:--font-mono) text-xs text-(--color-text-muted) shrink-0">
+              {tagList.join(' · ')}
+            </span>
+          )}
+          <span class="font-(family-name:--font-mono) text-sm text-(--color-text) group-hover:text-(--color-accent) transition-colors duration-150">
+            {tip.data.title}
+          </span>
+        </a>
+      );
+    })}
   </div>
 </Base>
