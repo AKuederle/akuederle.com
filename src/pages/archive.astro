@@ -7,6 +7,7 @@ posts.sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf());
 ---
 
 <Base title="Archive">
+  <div class="max-w-[750px]">
   <h1 class="font-(family-name:--font-mono) text-2xl font-bold mb-8">Archive</h1>
   <div class="flex flex-col">
     {posts.map((post) => {
@@ -27,5 +28,6 @@ posts.sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf());
         </a>
       );
     })}
+  </div>
   </div>
 </Base>

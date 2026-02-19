@@ -7,6 +7,7 @@ tips.sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf());
 ---
 
 <Base title="Quicktips">
+  <div class="max-w-[750px]">
   <h1 class="font-(family-name:--font-mono) text-2xl font-bold mb-8">Quicktips</h1>
   <div class="flex flex-col">
     {tips.map((tip) => {
@@ -24,5 +25,6 @@ tips.sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf());
         </a>
       );
     })}
+  </div>
   </div>
 </Base>

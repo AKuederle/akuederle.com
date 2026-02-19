@@ -7,7 +7,7 @@ posts.sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf());
 ---
 
 <Base>
-  <div class="flex flex-col">
+  <div class="flex flex-col max-w-[750px]">
     {posts.map((post) => (
       <a href={`/posts/${post.id}/`} class="group flex flex-col gap-0.5 py-3 no-underline border-b border-(--color-border) last:border-b-0">
         <span class="font-(family-name:--font-mono) text-xs text-(--color-text-muted)">
