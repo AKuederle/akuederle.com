@@ -2,9 +2,12 @@
   "name": "akuederle-blog",
   "version": "1.0.0",
   "dependencies": {
-    "astro": "^5.7.0",
     "@astrojs/sitemap": "^3.3.0",
-    "sass": "^1.89.0"
+    "@fontsource-variable/geist": "^5.2.8",
+    "@fontsource-variable/geist-mono": "^5.2.7",
+    "@tailwindcss/vite": "^4.2.0",
+    "astro": "^5.7.0",
+    "tailwindcss": "^4.2.0"
   },
   "scripts": {
     "dev": "astro dev",
